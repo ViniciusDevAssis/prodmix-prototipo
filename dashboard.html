@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - ProdMix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .green-custom {
+        background-color: #007373;
+      }
+      .green-custom-hover:hover {
+        background-color: #005f5f;
+      }
+      .text-green-custom {
+        color: #007373;
+      }
+    </style>
+  </head>
+  <body class="bg-green-custom font-sans min-h-screen">
+    <!-- Navbar -->
+    <nav class="w-full bg-white/95 backdrop-blur-sm shadow-md px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 z-50">
+      <!-- Logo da loja -->
+      <a href="#" class="flex items-center flex-shrink-0">
+        <img
+          src="https://res.cloudinary.com/diz5ekmpf/image/upload/v1759796367/Sem_nome_1536_x_411_px_deg1rp.svg"
+          alt="Logo da Loja"
+          class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+        />
+      </a>
+
+      <!-- Botão logout -->
+      <div>
+        <a
+          href="#"
+          class="px-3 py-2 green-custom text-white rounded hover:bg-green-custom-hover shadow-md text-sm sm:text-base"
+          >Logout</a
+        >
+      </div>
+    </nav>
+
+    <!-- KPIs -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+      <div class="bg-white p-6 rounded-xl shadow text-center flex flex-col items-center justify-center">
+        <div class="text-green-custom text-3xl mb-2">📦</div>
+        <h3 class="font-semibold text-lg">Total de produtos</h3>
+        <p class="text-gray-700 text-xl mt-1">150</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl shadow text-center flex flex-col items-center justify-center">
+        <div class="text-green-custom text-3xl mb-2">✅</div>
+        <h3 class="font-semibold text-lg">Produtos ativos</h3>
+        <p class="text-gray-700 text-xl mt-1">120</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl shadow text-center flex flex-col items-center justify-center">
+        <div class="text-green-custom text-3xl mb-2">🆕</div>
+        <h3 class="font-semibold text-lg">Novos produtos</h3>
+        <p class="text-gray-700 text-xl mt-1">15</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl shadow text-center flex flex-col items-center justify-center">
+        <div class="text-green-custom text-3xl mb-2">🕒</div>
+        <h3 class="font-semibold text-lg">Última atualização</h3>
+        <p class="text-gray-700 text-sm mt-1">07/10/2025 10:15</p>
+      </div>
+    </section>
+
+    <!-- Cards de navegação -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-1 sm:grid-cols-3 gap-8">
+      <div class="p-6 bg-white rounded-xl shadow text-center">
+        <div class="text-green-custom text-4xl mb-4">⚙️</div>
+        <h3 class="font-semibold text-xl mb-2">Atualizar dados da loja</h3>
+        <a
+          href="update-store.html"
+          class="mt-2 inline-block px-4 py-2 green-custom text-white rounded hover:bg-green-custom-hover transition"
+          >Ir</a
+        >
+      </div>
+
+      <div class="p-6 bg-white rounded-xl shadow text-center">
+        <div class="text-green-custom text-4xl mb-4">📋</div>
+        <h3 class="font-semibold text-xl mb-2">Gerenciar produtos</h3>
+        <a
+          href="manage-products.html"
+          class="mt-2 inline-block px-4 py-2 green-custom text-white rounded hover:bg-green-custom-hover transition"
+          >Ir</a
+        >
+      </div>
+
+      <div class="p-6 bg-white rounded-xl shadow text-center">
+        <div class="text-green-custom text-4xl mb-4">👀</div>
+        <h3 class="font-semibold text-xl mb-2">Pré-visualizar catálogo</h3>
+        <a
+          href="catalog-preview.html"
+          class="mt-2 inline-block px-4 py-2 green-custom text-white rounded hover:bg-green-custom-hover transition"
+          >Ir</a
+        >
+      </div>
+    </section>
+
+    <footer class="bg-[#007373] text-white py-6 mt-16 border-t-4 border-[#005f5f]">
+      <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+        <div>
+          <h3 class="text-xl font-semibold">ProdMix</h3>
+          <p class="text-sm text-gray-100 mt-1">
+            © 2025 ProdMix. Todos os direitos reservados.
+          </p>
+        </div>
+        <div class="mt-4 md:mt-0">
+          <p class="text-sm text-gray-100">
+            Desenvolvido por
+            <span class="font-semibold">Core Systems</span>
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
