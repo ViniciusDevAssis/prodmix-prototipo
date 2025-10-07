@@ -6,7 +6,7 @@
     <title>ProdMix - Apresentação</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      /* Definir cor personalizada */
+      /* Cor personalizada */
       .green-custom {
         background-color: #007373;
       }
@@ -18,9 +18,12 @@
       }
     </style>
   </head>
+
   <body class="bg-gray-50 text-gray-900 font-sans">
     <!-- Navbar -->
     <nav
+      role="navigation"
+      aria-label="Navegação principal"
       class="w-full bg-white/95 backdrop-blur-sm shadow-md px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 z-50"
     >
       <!-- Logo -->
@@ -36,7 +39,7 @@
       <div class="flex gap-2 sm:gap-4 ml-2">
         <a
           href="register.html"
-          class="px-3 sm:px-4 py-1.5 sm:py-2 green-custom text-white rounded hover:bg-green-custom-hover text-sm sm:text-base transition whitespace-nowrap"
+          class="px-3 sm:px-4 py-1.5 sm:py-2 green-custom text-white rounded hover:bg-green-custom-hover text-sm sm:text-base transition whitespace-nowrap shadow-md hover:shadow-lg"
         >
           Cadastrar loja
         </a>
@@ -51,7 +54,7 @@
 
     <!-- Hero Section -->
     <section
-      class="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-20 flex flex-col-reverse md:flex-row items-center gap-10 md:gap-16"
+      class="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 flex flex-col-reverse md:flex-row items-center gap-10 md:gap-16 mt-4"
     >
       <div class="flex-1 flex flex-col gap-4 sm:gap-6 text-center md:text-left">
         <h1
@@ -73,7 +76,7 @@
         >
           <a
             href="register.html"
-            class="px-6 py-3 green-custom text-white rounded-lg font-medium hover:bg-green-custom-hover transition"
+            class="px-6 py-3 green-custom text-white rounded-lg font-medium hover:bg-green-custom-hover transition shadow-md hover:shadow-lg"
           >
             Começar agora
           </a>
@@ -174,26 +177,30 @@
       </h2>
       <a
         href="register.html"
-        class="px-8 py-4 green-custom text-white rounded-lg font-semibold hover:bg-green-custom-hover transition"
+        class="px-8 py-4 green-custom text-white rounded-lg font-semibold hover:bg-green-custom-hover shadow-md hover:shadow-lg transition"
       >
         Cadastrar loja
       </a>
     </section>
 
     <!-- Footer profissional -->
-    <footer class="w-full bg-[#007373] py-6 mt-12">
+    <footer
+      class="bg-[#007373] text-white py-6 mt-16 border-t-4 border-[#005f5f]"
+    >
       <div
-        class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-white text-sm"
+        class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center"
       >
-        <!-- Copyright -->
-        <span>© 2025 Core Systems. Todos os direitos reservados.</span>
-
-        <!-- Links opcionais -->
-        <div class="flex gap-4">
-          <a href="#" class="hover:text-green-200 transition">Suporte</a>
-          <a href="#" class="hover:text-green-200 transition"
-            >Política de Privacidade</a
-          >
+        <div>
+          <h3 class="text-xl font-semibold">ProdMix</h3>
+          <p class="text-sm text-gray-100 mt-1">
+            © 2025 ProdMix. Todos os direitos reservados.
+          </p>
+        </div>
+        <div class="mt-4 md:mt-0">
+          <p class="text-sm text-gray-100">
+            Desenvolvido por
+            <span class="font-semibold">Core Systems</span>
+          </p>
         </div>
       </div>
     </footer>
