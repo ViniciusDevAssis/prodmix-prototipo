@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Atualizar Loja - ProdMix</title>
+
+    <!-- Remix Icon CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .green-custom {
+        background-color: #007373;
+      }
+      .green-custom-hover:hover {
+        background-color: #005f5f;
+      }
+      .text-green-custom {
+        color: #007373;
+      }
+    </style>
+  </head>
+  <body class="bg-green-custom font-sans min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav
+      class="w-full bg-white/95 backdrop-blur-sm shadow-md px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 z-50"
+    >
+      <a href="dashboard.html" class="flex items-center flex-shrink-0">
+        <img
+          src="https://res.cloudinary.com/diz5ekmpf/image/upload/v1759796367/Sem_nome_1536_x_411_px_deg1rp.svg"
+          alt="Logo da Loja"
+          class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+        />
+      </a>
+      <div>
+        <a
+          href="dashboard.html"
+          class="px-3 py-2 green-custom text-white rounded hover:bg-green-custom-hover shadow-md text-sm sm:text-base"
+          >Voltar</a
+        >
+      </div>
+    </nav>
+
+    <!-- Formulário centralizado -->
+    <section
+      class="flex flex-col items-center justify-start min-h-[80vh] px-4 py-6 sm:py-12"
+    >
+      <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-md space-y-6">
+        <h1
+          class="text-2xl sm:text-3xl font-bold text-center text-green-custom mb-6"
+        >
+          Atualizar Dados da Loja
+        </h1>
+
+        <form class="space-y-4">
+          <!-- Nome da loja -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-1" for="storeName"
+              >Nome da loja</label
+            >
+            <input
+              type="text"
+              id="storeName"
+              name="storeName"
+              placeholder="Digite o nome da loja"
+              class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-custom"
+            />
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-1" for="email"
+              >Email de contato</label
+            >
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="email@exemplo.com"
+              class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-custom"
+            />
+          </div>
+
+          <!-- Telefone -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-1" for="phone"
+              >Telefone</label
+            >
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="(00) 00000-0000"
+              class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-custom"
+            />
+          </div>
+
+          <!-- Instagram -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-1" for="instagram"
+              >Instagram</label
+            >
+            <div
+              class="flex items-center border border-gray-300 rounded px-4 py-2 focus-within:ring-2 focus-within:ring-green-custom"
+            >
+              <i class="ri-instagram-line text-gray-400 mr-2 text-xl"></i>
+              <input
+                type="url"
+                id="instagram"
+                name="instagram"
+                placeholder="https://instagram.com/sualoja"
+                class="w-full outline-none"
+              />
+            </div>
+          </div>
+
+          <!-- Google Maps -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-1" for="mapLink"
+              >Endereço (Link do Google Maps)</label
+            >
+            <div
+              class="flex items-center border border-gray-300 rounded px-4 py-2 focus-within:ring-2 focus-within:ring-green-custom"
+            >
+              <i class="ri-map-pin-line text-gray-400 mr-2 text-xl"></i>
+              <input
+                type="url"
+                id="mapLink"
+                name="mapLink"
+                placeholder="Cole aqui o link do Google Maps da loja"
+                class="w-full outline-none"
+              />
+            </div>
+          </div>
+
+          <!-- Botão de salvar -->
+          <div class="text-center">
+            <button
+              type="submit"
+              class="w-full px-6 py-3 green-custom text-white rounded-lg font-medium hover:bg-green-custom-hover shadow-md hover:shadow-lg transition"
+            >
+              Salvar alterações
+            </button>
+          </div>
+
+          <!-- Botão de desativar -->
+          <div class="text-center">
+            <button
+              type="button"
+              onclick="confirmDeactivation()"
+              class="px-6 py-3 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 shadow-md hover:shadow-lg transition mt-4"
+            >
+              Desativar Loja
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+      class="bg-[#007373] text-white py-6 mt-auto border-t-4 border-[#005f5f]"
+    >
+      <div
+        class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center"
+      >
+        <div>
+          <h3 class="text-xl font-semibold">ProdMix</h3>
+          <p class="text-sm text-gray-100 mt-1">
+            © 2025 ProdMix. Todos os direitos reservados.
+          </p>
+        </div>
+        <div class="mt-4 md:mt-0">
+          <p class="text-sm text-gray-100">
+            Desenvolvido por <span class="font-semibold">Core Systems</span>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      function confirmDeactivation() {
+        const confirmAction = confirm(
+          "Tem certeza que deseja desativar seu cadastro? Essa ação pode ser revertida posteriormente."
+        );
+        if (confirmAction) {
+          // Aqui você chamaria a API para desativar a loja
+          alert("Loja desativada! (substitua por chamada real ao backend)");
+        }
+      }
+    </script>
+  </body>
+</html>
