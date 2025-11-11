@@ -5,27 +5,63 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Catálogo - ProdMix</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
     <style>
-      .green-custom { background-color: #007373; }
-      .green-custom-hover:hover { background-color: #005f5f; }
-      .tab-active { background-color: #005f5f; color: white; }
+      .green-custom {
+        background-color: #007373;
+      }
+      .green-custom-hover:hover {
+        background-color: #005f5f;
+      }
+      .tab-active {
+        background-color: #005f5f;
+        color: white;
+      }
+
+      /* EFEITO FADE-IN NOS CARDS */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .fade-in {
+        animation: fadeIn 0.4s ease-in-out;
+      }
     </style>
   </head>
 
   <body class="bg-green-custom font-sans min-h-screen flex flex-col">
     <!-- Navbar -->
-    <nav class="w-full bg-white/95 backdrop-blur-sm shadow-md px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 z-50">
+    <nav
+      class="w-full bg-white/95 backdrop-blur-sm shadow-md px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 z-50"
+    >
       <a href="dashboard.html" class="flex items-center flex-shrink-0">
-        <img src="https://res.cloudinary.com/diz5ekmpf/image/upload/v1759796367/Sem_nome_1536_x_411_px_deg1rp.svg"
-             alt="Logo da Loja" class="h-8 sm:h-10 md:h-12 w-auto object-contain" />
+        <img
+          src="https://res.cloudinary.com/diz5ekmpf/image/upload/v1759796367/Sem_nome_1536_x_411_px_deg1rp.svg"
+          alt="Logo da Loja"
+          class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+        />
       </a>
 
       <div class="flex items-center gap-2">
-        <a href="dashboard.html" class="px-3 py-2 green-custom text-white rounded hover:bg-green-custom-hover shadow-md text-sm sm:text-base">Voltar</a>
+        <a
+          href="dashboard.html"
+          class="px-3 py-2 green-custom text-white rounded hover:bg-green-custom-hover shadow-md text-sm sm:text-base"
+          >Voltar</a
+        >
 
-        <button onclick="shareCatalog()"
-                class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 shadow-md text-sm sm:text-base flex items-center gap-1">
+        <button
+          id="shareBtn"
+          class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 shadow-md text-sm sm:text-base flex items-center gap-1"
+        >
           <i class="ri-share-line"></i> Compartilhar
         </button>
       </div>
@@ -37,159 +73,204 @@
 
       <!-- Busca -->
       <div class="mb-6">
-        <input id="searchInput" type="text" placeholder="Buscar produto..."
-               class="w-full sm:w-1/2 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#005f5f]" />
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Buscar produto..."
+          class="w-full sm:w-1/2 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#005f5f]"
+        />
       </div>
 
       <!-- Tabs categorias -->
       <div id="categoryTabs" class="flex flex-wrap gap-2 mb-6"></div>
 
       <!-- Container dos produtos agrupados por categoria -->
-      <div id="catalogContainer" class="space-y-10"></div>
+      <div id="catalogContainer" class="space-y-12"></div>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-[#007373] text-white py-6 mt-auto border-t-4 border-[#005f5f]">
-      <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+    <footer
+      class="bg-[#007373] text-white py-6 mt-auto border-t-4 border-[#005f5f]"
+    >
+      <div
+        class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center"
+      >
         <div>
           <h3 class="text-xl font-semibold">ProdMix</h3>
-          <p class="text-sm text-gray-100 mt-1">© 2025 ProdMix. Todos os direitos reservados.</p>
+          <p class="text-sm text-gray-100 mt-1">
+            © 2025 ProdMix. Todos os direitos reservados.
+          </p>
         </div>
         <div class="mt-4 md:mt-0">
-          <p class="text-sm text-gray-100">Desenvolvido por <span class="font-semibold">Core Systems</span></p>
+          <p class="text-sm text-gray-100">
+            Desenvolvido por <span class="font-semibold">Core Systems</span>
+          </p>
         </div>
       </div>
     </footer>
 
-    <!-- Modal de imagem (oculto por padrão) -->
-    <div id="imageModal" class="hidden fixed inset-0 z-60 flex items-center justify-center bg-black/70">
+    <!-- Modal de imagem -->
+    <div
+      id="imageModal"
+      class="hidden fixed inset-0 z-60 flex items-center justify-center bg-black/70"
+    >
       <div class="relative max-w-3xl w-full mx-4">
-        <button onclick="closeImageModal()" class="absolute top-2 right-2 z-70 bg-white rounded-full p-1 shadow">
+        <button
+          onclick="closeImageModal()"
+          class="absolute top-2 right-2 z-70 bg-white rounded-full p-1 shadow"
+        >
           <i class="ri-close-line text-2xl"></i>
         </button>
-        <img id="modalImage" src="" alt="Produto" class="w-full max-h-[90vh] object-contain rounded" />
+        <img
+          id="modalImage"
+          src=""
+          alt="Produto"
+          class="w-full max-h-[90vh] object-contain rounded"
+        />
       </div>
     </div>
 
     <script>
-      // Dados de exemplo
       const products = [
-        { name: 'Refrigerante Cola', category: 'Bebidas', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Ativo' },
-        { name: 'Biscoito Cream Cracker Marilan Premium 20x300g', category: 'Alimentos', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Inativo' },
-        { name: 'Sabonete Albany - Perfumes da Natureza - Jasmim Envolvente 12x85g', category: 'Perfumaria', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Ativo' },
-        { name: 'Suco Natural', category: 'Bebidas', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Ativo' },
-        { name: 'Chiclete', category: 'Alimentos', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Ativo' },
-        { name: 'Detergente', category: 'Limpeza', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Inativo' },
-        { name: 'Amaciante', category: 'Limpeza', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Ativo' },
-        { name: 'Pasta de Dente', category: 'Higiene', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Ativo' }
-      ];
+      { name: 'Refrigerante Cola', category: 'Bebidas', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Ativo' },
+      { name: 'Biscoito Cream Cracker Marilan Premium 20x300g', category: 'Alimentos', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Inativo' },
+      { name: 'Sabonete Albany - Perfumes da Natureza - Jasmim Envolvente 12x85g', category: 'Perfumaria', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Ativo' },
+      { name: 'Suco Natural', category: 'Bebidas', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Ativo' },
+      { name: 'Chiclete', category: 'Alimentos', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Ativo' },
+      { name: 'Detergente', category: 'Limpeza', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Inativo' },
+      { name: 'Amaciante', category: 'Limpeza', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Ativo' },
+      { name: 'Pasta de Dente', category: 'Higiene', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Ativo' }
+    ];
 
-      let selectedCategory = '';
-      const searchInput = document.getElementById('searchInput');
+      document.addEventListener("DOMContentLoaded", () => {
+        let selectedCategory = "";
+        const searchInput = document.getElementById("searchInput");
+        const tabsContainer = document.getElementById("categoryTabs");
+        const catalogContainer = document.getElementById("catalogContainer");
+        const shareBtn = document.getElementById("shareBtn");
 
-      // Compartilhar (nativo)
-      function shareCatalog() {
-        const shareData = { title: 'Catálogo ProdMix', text: 'Confira o catálogo de produtos da minha loja!', url: 'https://prodmix.app/catalogo-demo' };
-        if (navigator.share) navigator.share(shareData).catch(console.error);
-        else alert('Compartilhamento nativo não suportado neste dispositivo.');
-      }
-
-      // Renders
-      function renderTabs() {
-        const tabsContainer = document.getElementById('categoryTabs');
-        tabsContainer.innerHTML = '';
-        const categories = [...new Set(products.map(p => p.category))];
-        categories.unshift('Todas');
-
-        categories.forEach(cat => {
-          const btn = document.createElement('button');
-          btn.textContent = cat;
-          btn.className = `px-4 py-2 rounded ${ (selectedCategory === cat || (selectedCategory === '' && cat === 'Todas')) ? 'tab-active' : 'bg-white text-gray-800' }`;
-          btn.onclick = () => { selectedCategory = (cat === 'Todas' ? '' : cat); renderTabs(); renderProducts(); };
-          tabsContainer.appendChild(btn);
+        // Compartilhar
+        shareBtn.addEventListener("click", () => {
+          const shareData = {
+            title: "Catálogo ProdMix",
+            text: "Confira o catálogo de produtos da minha loja!",
+            url: window.location.href,
+          };
+          if (navigator.share) {
+            navigator.share(shareData).catch(console.error);
+          } else {
+            navigator.clipboard.writeText(shareData.url);
+            alert("Link copiado para a área de transferência.");
+          }
         });
-      }
 
-      function renderProducts() {
-        const container = document.getElementById('catalogContainer');
-        container.innerHTML = '';
+        function renderTabs() {
+          tabsContainer.innerHTML = "";
+          const categories = [...new Set(products.map((p) => p.category))];
+          categories.unshift("Todas");
 
-        const query = (searchInput.value || '').trim().toLowerCase();
-
-        const filtered = products.filter(p =>
-          p.status === 'Ativo' &&
-          (!selectedCategory || p.category === selectedCategory) &&
-          p.name.toLowerCase().includes(query)
-        );
-
-        if (filtered.length === 0) {
-          container.innerHTML = `<p class="text-white text-center text-xl mt-10">Nenhum produto encontrado.</p>`;
-          return;
+          categories.forEach((cat) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.textContent = cat;
+            const isActive =
+              selectedCategory === cat ||
+              (selectedCategory === "" && cat === "Todas");
+            btn.className = `px-4 py-2 rounded ${
+              isActive ? "tab-active" : "bg-white text-gray-800"
+            }`;
+            btn.onclick = () => {
+              selectedCategory = cat === "Todas" ? "" : cat;
+              renderTabs();
+              renderProducts();
+              window.scrollTo({ top: 120, behavior: "smooth" });
+            };
+            tabsContainer.appendChild(btn);
+          });
         }
 
-        const groups = [...new Set(filtered.map(p => p.category))];
+        function renderProducts() {
+          catalogContainer.innerHTML = "";
+          const query = (searchInput.value || "").trim().toLowerCase();
 
-        groups.forEach(cat => {
-          const items = filtered.filter(p => p.category === cat);
-          const section = document.createElement('section');
+          const filtered = products.filter(
+            (p) =>
+              p.status === "Ativo" &&
+              (!selectedCategory || p.category === selectedCategory) &&
+              p.name.toLowerCase().includes(query)
+          );
 
-          // título categoria
-          const h = document.createElement('h2');
-          h.className = 'text-2xl font-semibold text-white mb-4';
-          h.textContent = cat;
-          section.appendChild(h);
+          if (filtered.length === 0) {
+            catalogContainer.innerHTML = `<p class="text-white text-center text-xl mt-10">Nenhum produto encontrado.</p>`;
+            return;
+          }
 
-          // grid
-          const grid = document.createElement('div');
-          grid.className = 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4';
-
-          items.forEach(p => {
-            const card = document.createElement('div');
-            card.className = 'bg-white rounded-xl shadow-md p-3 flex flex-col justify-between';
-
-            const img = document.createElement('img');
-            img.src = p.image;
-            img.alt = p.name;
-            img.className = 'w-full h-32 sm:h-40 object-cover rounded-md mb-3 cursor-pointer';
-            img.onclick = () => openImageModal(p.image);
-
-            const title = document.createElement('h3');
-            title.className = 'text-md font-semibold text-gray-800';
-            title.textContent = p.name;
-
-            card.appendChild(img);
-            card.appendChild(title);
-            grid.appendChild(card);
+          const grouped = {};
+          filtered.forEach((p) => {
+            if (!grouped[p.category]) grouped[p.category] = [];
+            grouped[p.category].push(p);
           });
 
-          section.appendChild(grid);
-          container.appendChild(section);
+          Object.keys(grouped).forEach((cat) => {
+            const section = document.createElement("section");
+
+            const h = document.createElement("h2");
+            h.className =
+              "text-2xl font-semibold text-black mb-4 border-l-4 border-white pl-3";
+            h.textContent = cat;
+            section.appendChild(h);
+
+            const grid = document.createElement("div");
+            grid.className =
+              "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4";
+
+            grouped[cat].forEach((p) => {
+              const card = document.createElement("div");
+              card.className =
+                "bg-white rounded-xl shadow-md p-3 flex flex-col justify-between fade-in";
+
+              const img = document.createElement("img");
+              img.src = p.image;
+              img.alt = p.name;
+              img.className =
+                "w-full h-32 sm:h-40 object-cover rounded-md mb-3 cursor-pointer";
+              img.onclick = () => openImageModal(p.image);
+
+              const title = document.createElement("h3");
+              title.className = "text-md font-semibold text-gray-800";
+              title.textContent = p.name;
+
+              card.appendChild(img);
+              card.appendChild(title);
+              grid.appendChild(card);
+            });
+
+            section.appendChild(grid);
+            catalogContainer.appendChild(section);
+          });
+        }
+
+        function openImageModal(url) {
+          const modal = document.getElementById("imageModal");
+          const img = document.getElementById("modalImage");
+          img.src = url;
+          modal.classList.remove("hidden");
+        }
+        window.closeImageModal = function () {
+          const modal = document.getElementById("imageModal");
+          modal.classList.add("hidden");
+          document.getElementById("modalImage").src = "";
+        };
+
+        let debounceTimer;
+        searchInput.addEventListener("input", () => {
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(renderProducts, 150);
         });
-      }
 
-      // Modal de imagem
-      function openImageModal(url) {
-        const modal = document.getElementById('imageModal');
-        const img = document.getElementById('modalImage');
-        img.src = url;
-        modal.classList.remove('hidden');
-      }
-      function closeImageModal() {
-        const modal = document.getElementById('imageModal');
-        modal.classList.add('hidden');
-        document.getElementById('modalImage').src = '';
-      }
-
-      // Busca com debounce leve
-      let debounceTimer;
-      searchInput.addEventListener('input', () => {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(renderProducts, 150);
+        renderTabs();
+        renderProducts();
       });
-
-      // Inicializa
-      renderTabs();
-      renderProducts();
     </script>
   </body>
 </html>
