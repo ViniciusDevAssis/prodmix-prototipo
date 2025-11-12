@@ -1,176 +1,376 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gerenciar Produtos - ProdMix</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
-  <style>
-    .green-custom { background-color: #007373; }
-    .green-custom-hover:hover { background-color: #005f5f; }
-    .text-green-custom { color: #007373; }
-    .modal-bg { background-color: rgba(0,0,0,0.5); }
-    .img-fullscreen { max-width: 90%; max-height: 90%; object-fit: contain; }
-  </style>
-</head>
-<body class="bg-green-custom font-sans min-h-screen flex flex-col">
-
-  <!-- Navbar -->
-  <nav class="w-full bg-white/95 backdrop-blur-sm shadow-md px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 z-50">
-    <a href="dashboard.html" class="flex items-center flex-shrink-0">
-      <img src="https://res.cloudinary.com/diz5ekmpf/image/upload/v1759796367/Sem_nome_1536_x_411_px_deg1rp.svg" alt="Logo da Loja" class="h-8 sm:h-10 md:h-12 w-auto object-contain"/>
-    </a>
-    <a href="dashboard.html" class="px-3 py-2 green-custom text-white rounded hover:bg-green-custom-hover shadow-md text-sm sm:text-base">Voltar</a>
-  </nav>
-
-  <!-- Conteúdo -->
-  <main class="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 py-6">
-    <div class="flex justify-between items-center mb-6">
-      <h1 class="text-3xl font-bold text-white">Gerenciar Produtos</h1>
-      <button onclick="openModal('addModal')" class="px-5 py-2 green-custom text-white rounded-lg hover:bg-green-custom-hover shadow-md hover:shadow-lg transition">
-        + Adicionar Produto
-      </button>
-    </div>
-
-    <!-- Lista de produtos -->
-    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-      <!-- Cards gerados dinamicamente via JS -->
-    </div>
-  </main>
-
-  <!-- Modal Adicionar / Editar -->
-  <div id="addModal" class="hidden fixed inset-0 flex items-center justify-center modal-bg z-50">
-    <div class="bg-white rounded-xl w-full max-w-md p-6 relative">
-      <h2 id="modalTitle" class="text-2xl font-bold text-green-custom mb-4">Adicionar Produto</h2>
-      <form id="productForm" class="space-y-4">
-        <input type="text" placeholder="Nome do produto" id="productName" class="w-full border border-gray-300 rounded px-4 py-2" required/>
-        <select id="productCategory" class="w-full border border-gray-300 rounded px-4 py-2" required>
-          <option value="">Selecione a categoria</option>
-          <option value="Bebidas">Bebidas</option>
-          <option value="Alimentos">Alimentos</option>
-          <option value="Perfumaria">Perfumaria</option>
-          <option value="Limpeza">Limpeza</option>
-          <option value="Higiene">Higiene</option>
-        </select>
-        <input type="url" placeholder="URL da imagem" id="productImage" class="w-full border border-gray-300 rounded px-4 py-2"/>
-        <div class="flex justify-end gap-2">
-          <button type="button" onclick="closeModal('addModal')" class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">Cancelar</button>
-          <button type="submit" class="px-4 py-2 green-custom text-white rounded hover:bg-green-custom-hover">Salvar</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Modal Imagem Fullscreen -->
-  <div id="imageModal" class="hidden fixed inset-0 flex items-center justify-center modal-bg z-50">
-    <img id="fullscreenImage" class="img-fullscreen rounded shadow-lg cursor-pointer" onclick="closeModal('imageModal')"/>
-  </div>
-
-  <footer class="bg-[#007373] text-white py-6 mt-auto border-t-4 border-[#005f5f]">
-    <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
-      <div>
-        <h3 class="text-xl font-semibold">ProdMix</h3>
-        <p class="text-sm text-gray-100 mt-1">© 2025 ProdMix. Todos os direitos reservados.</p>
-      </div>
-      <div class="mt-4 md:mt-0">
-        <p class="text-sm text-gray-100">Desenvolvido por <span class="font-semibold">Core Systems</span></p>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    let products = [
-      { name: 'Refrigerante Cola', category: 'Bebidas', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Ativo' },
-      { name: 'Biscoito Cream Cracker Marilan Premium 20x300g', category: 'Alimentos', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Inativo' },
-      { name: 'Sabonete Albany - Perfumes da Natureza - Jasmim Envolvente 12x85g', category: 'Perfumaria', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Ativo' },
-      { name: 'Suco Natural', category: 'Bebidas', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Ativo' },
-      { name: 'Chiclete', category: 'Alimentos', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Ativo' },
-      { name: 'Detergente', category: 'Limpeza', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Inativo' },
-      { name: 'Amaciante', category: 'Limpeza', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Ativo' },
-      { name: 'Pasta de Dente', category: 'Higiene', image: 'https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg', status: 'Ativo' }
-    ];
-
-    let editIndex = null;
-
-    function renderProducts() {
-      const grid = document.getElementById('productGrid');
-      grid.innerHTML = '';
-      products.forEach((p, i) => {
-        grid.innerHTML += `
-          <div class="bg-white rounded-xl shadow-md p-4 flex flex-col justify-between">
-            <img src="${p.image}" alt="${p.name}" class="w-full h-40 object-cover rounded-md mb-4 cursor-pointer" onclick="viewImage('${p.image}')"/>
-            <div>
-              <h2 class="text-xl font-semibold text-gray-800">${p.name}</h2>
-              <p class="text-gray-500 text-sm">Categoria: ${p.category}</p>
-              <p class="text-gray-500 text-sm">Status: <span class="text-${p.status==='Ativo'?'green':'red'}-600">${p.status}</span></p>
-            </div>
-            <div class="mt-4 flex justify-center">
-              <div class="flex gap-2 flex-nowrap">
-                <button onclick="editProduct(${i})" class="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500 flex items-center gap-1 w-[90px] justify-center flex-shrink-0">
-                  <i class="ri-pencil-line"></i> Editar
-                </button>
-                <button onclick="toggleStatus(${i})" class="px-3 py-1 bg-gray-400 text-white rounded hover:bg-gray-500 flex items-center gap-1 w-[110px] justify-center flex-shrink-0 text-center">
-                  <i class="ri-eye${p.status==='Ativo'?'-off':' '} -line"></i> ${p.status==='Ativo'?'Desativar':'Ativar'}
-                </button>
-                <button onclick="deleteProduct(${i})" class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 flex items-center gap-1 w-[90px] justify-center flex-shrink-0">
-                  <i class="ri-delete-bin-6-line"></i> Excluir
-                </button>
-              </div>
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
-    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-
-    // Modal imagem
-    function viewImage(src) {
-      document.getElementById('fullscreenImage').src = src;
-      openModal('imageModal');
-    }
-
-    function editProduct(i) {
-      editIndex = i;
-      const p = products[i];
-      document.getElementById('modalTitle').innerText = 'Editar Produto';
-      document.getElementById('productName').value = p.name;
-      document.getElementById('productCategory').value = p.category;
-      document.getElementById('productImage').value = p.image;
-      openModal('addModal');
-    }
-
-    document.getElementById('productForm').addEventListener('submit', function(e){
-      e.preventDefault();
-      const name = document.getElementById('productName').value;
-      const category = document.getElementById('productCategory').value;
-      const image = document.getElementById('productImage').value;
-      if(editIndex !== null) {
-        products[editIndex] = { ...products[editIndex], name, category, image };
-        editIndex = null;
-      } else {
-        products.push({ name, category, image, status: 'Ativo' });
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerenciar Produtos - ProdMix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      .green-custom {
+        background-color: #007373;
       }
-      closeModal('addModal');
-      renderProducts();
-    });
+      .green-custom-hover:hover {
+        background-color: #005f5f;
+      }
+      .fade-in {
+        animation: fadeIn 0.6s ease-in-out;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
 
-    function toggleStatus(i) {
-      products[i].status = products[i].status==='Ativo'?'Inativo':'Ativo';
-      renderProducts();
-    }
+  <body class="bg-green-custom font-sans min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav
+      class="w-full bg-white/95 backdrop-blur-sm shadow-md px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 z-50"
+    >
+      <a href="dashboard.html" class="flex items-center flex-shrink-0">
+        <img
+          src="https://res.cloudinary.com/diz5ekmpf/image/upload/v1759796367/Sem_nome_1536_x_411_px_deg1rp.svg"
+          alt="Logo da Loja"
+          class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+        />
+      </a>
+      <a
+        href="dashboard.html"
+        class="px-3 py-2 green-custom text-white rounded hover:bg-green-custom-hover shadow-md text-sm sm:text-base"
+        >Voltar</a
+      >
+    </nav>
 
-    function deleteProduct(i) {
-      if(confirm('Tem certeza que deseja excluir este produto?')) {
-        products.splice(i,1);
+    <!-- Conteúdo -->
+    <main class="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 py-6">
+      <h1 class="text-3xl font-bold mb-6 ">Gerenciar Produtos</h1>
+
+      <div class="mb-6 flex flex-col sm:flex-row gap-3 sm:items-center">
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Buscar produto..."
+          class="w-full sm:w-1/2 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#005f5f]"
+        />
+        <button
+          onclick="openModal('addModal')"
+          class="px-5 py-2 green-custom text-white rounded-lg hover:bg-green-custom-hover shadow-md hover:shadow-lg transition"
+        >
+          + Adicionar Produto
+        </button>
+      </div>
+
+      <!-- Tabs categorias -->
+      <div id="categoryTabs" class="flex flex-wrap gap-2 mb-6"></div>
+
+      <!-- Produtos agrupados -->
+      <div id="productContainer" class="space-y-8"></div>
+    </main>
+
+    <!-- Modal Adicionar / Editar -->
+    <div
+      id="addModal"
+      class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+    >
+      <div class="bg-white rounded-xl w-full max-w-md p-6 relative">
+        <h2 id="modalTitle" class="text-2xl font-bold text-green-custom mb-4">
+          Adicionar Produto
+        </h2>
+        <form id="productForm" class="space-y-4">
+          <input
+            type="text"
+            placeholder="Nome do produto"
+            id="productName"
+            class="w-full border border-gray-300 rounded px-4 py-2"
+            required
+          />
+          <select
+            id="productCategory"
+            class="w-full border border-gray-300 rounded px-4 py-2"
+            required
+          >
+            <option value="">Selecione a categoria</option>
+            <option value="Bebidas">Bebidas</option>
+            <option value="Alimentos">Alimentos</option>
+            <option value="Perfumaria">Perfumaria</option>
+            <option value="Limpeza">Limpeza</option>
+            <option value="Higiene">Higiene</option>
+          </select>
+          <input
+            type="url"
+            placeholder="URL da imagem"
+            id="productImage"
+            class="w-full border border-gray-300 rounded px-4 py-2"
+          />
+          <div class="flex justify-end gap-2">
+            <button
+              type="button"
+              onclick="closeModal('addModal')"
+              class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="px-4 py-2 green-custom text-white rounded hover:bg-green-custom-hover"
+            >
+              Salvar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal imagem -->
+    <div
+      id="imageModal"
+      class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+    >
+      <img
+        id="fullscreenImage"
+        class="max-w-[90%] max-h-[90%] object-contain rounded-lg shadow-lg cursor-pointer"
+        onclick="closeModal('imageModal')"
+      />
+    </div>
+
+    <footer
+      class="bg-[#007373] text-white py-6 mt-auto border-t-4 border-[#005f5f]"
+    >
+      <div
+        class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center"
+      >
+        <div>
+          <h3 class="text-xl font-semibold">ProdMix</h3>
+          <p class="text-sm text-gray-100 mt-1">
+            © 2025 ProdMix. Todos os direitos reservados.
+          </p>
+        </div>
+        <div class="mt-4 md:mt-0">
+          <p class="text-sm text-gray-100">
+            Desenvolvido por <span class="font-semibold">Core Systems</span>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const products = [
+        {
+          name: "Refrigerante Cola",
+          category: "Bebidas",
+          image:
+            "https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg",
+          status: "Ativo",
+        },
+        {
+          name: "Biscoito Cream Cracker Marilan Premium 20x300g",
+          category: "Alimentos",
+          image:
+            "https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg",
+          status: "Inativo",
+        },
+        {
+          name: "Sabonete Albany - Perfumes da Natureza - Jasmim Envolvente 12x85g",
+          category: "Perfumaria",
+          image:
+            "https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg",
+          status: "Ativo",
+        },
+        {
+          name: "Suco Natural",
+          category: "Bebidas",
+          image:
+            "https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg",
+          status: "Ativo",
+        },
+        {
+          name: "Chiclete",
+          category: "Alimentos",
+          image:
+            "https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg",
+          status: "Ativo",
+        },
+        {
+          name: "Detergente",
+          category: "Limpeza",
+          image:
+            "https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg",
+          status: "Inativo",
+        },
+        {
+          name: "Amaciante",
+          category: "Limpeza",
+          image:
+            "https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg",
+          status: "Ativo",
+        },
+        {
+          name: "Pasta de Dente",
+          category: "Higiene",
+          image:
+            "https://res.cloudinary.com/diz5ekmpf/image/upload/v1759794900/Design_sem_nome_ucm9qk.jpg",
+          status: "Ativo",
+        },
+      ];
+
+      let editIndex = null;
+      let selectedCategory = "";
+
+      const tabsContainer = document.getElementById("categoryTabs");
+      const searchInput = document.getElementById("searchInput");
+      const productContainer = document.getElementById("productContainer");
+
+      function renderTabs() {
+        tabsContainer.innerHTML = "";
+        const categories = [...new Set(products.map((p) => p.category))];
+        categories.unshift("Todas");
+
+        categories.forEach((cat) => {
+          const btn = document.createElement("button");
+          btn.textContent = cat;
+          btn.className = `px-4 py-2 rounded ${
+            selectedCategory === cat || (selectedCategory === "" && cat === "Todas")
+              ? "bg-[#005f5f] text-white"
+              : "bg-white text-gray-800"
+          }`;
+          btn.onclick = () => {
+            selectedCategory = cat === "Todas" ? "" : cat;
+            renderTabs();
+            renderProducts();
+          };
+          tabsContainer.appendChild(btn);
+        });
+      }
+
+      function renderProducts() {
+        productContainer.innerHTML = "";
+        const searchTerm = searchInput.value.toLowerCase();
+
+        const filtered = products.filter(
+          (p) =>
+            (!selectedCategory || p.category === selectedCategory) &&
+            p.name.toLowerCase().includes(searchTerm)
+        );
+
+        const categories = [...new Set(filtered.map((p) => p.category))];
+
+        categories.forEach((cat) => {
+          const section = document.createElement("div");
+          section.innerHTML = `
+            <h2 class="text-2xl font-semibold mb-3">${cat}</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              ${filtered
+                .filter((p) => p.category === cat)
+                .map(
+                  (p, i) => `
+                  <div class="bg-white rounded-xl shadow-md p-4 flex flex-col justify-between fade-in">
+                    <img src="${p.image}" alt="${p.name}"
+                         class="w-full h-40 object-cover rounded-md mb-4 cursor-pointer"
+                         onclick="viewImage('${p.image}')"/>
+                    <div>
+                      <h2 class="text-lg font-semibold text-gray-800">${p.name}</h2>
+                      <p class="text-gray-500 text-sm">Status:
+                        <span class="text-${p.status === "Ativo" ? "green" : "red"}-600">
+                          ${p.status}
+                        </span>
+                      </p>
+                    </div>
+                    <div class="mt-4 flex justify-center gap-2">
+                      <button onclick="editProduct(${products.indexOf(p)})"
+                        class="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500 flex items-center gap-1">
+                        <i class="ri-pencil-line"></i> Editar
+                      </button>
+                      <button onclick="toggleStatus(${products.indexOf(p)})"
+                        class="px-3 py-1 bg-gray-400 text-white rounded hover:bg-gray-500 flex items-center gap-1">
+                        <i class="ri-eye${
+                          p.status === "Ativo" ? "-off" : ""
+                        }-line"></i>
+                        ${p.status === "Ativo" ? "Desativar" : "Ativar"}
+                      </button>
+                      <button onclick="deleteProduct(${products.indexOf(p)})"
+                        class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 flex items-center gap-1">
+                        <i class="ri-delete-bin-6-line"></i> Excluir
+                      </button>
+                    </div>
+                  </div>`
+                )
+                .join("")}
+            </div>
+          `;
+          productContainer.appendChild(section);
+        });
+
+        if (filtered.length === 0)
+          productContainer.innerHTML =
+            '<p class="text-center text-white text-lg mt-8">Nenhum produto encontrado.</p>';
+      }
+
+      function openModal(id) {
+        document.getElementById(id).classList.remove("hidden");
+      }
+      function closeModal(id) {
+        document.getElementById(id).classList.add("hidden");
+      }
+      function viewImage(src) {
+        document.getElementById("fullscreenImage").src = src;
+        openModal("imageModal");
+      }
+
+      function editProduct(i) {
+        editIndex = i;
+        const p = products[i];
+        document.getElementById("modalTitle").innerText = "Editar Produto";
+        document.getElementById("productName").value = p.name;
+        document.getElementById("productCategory").value = p.category;
+        document.getElementById("productImage").value = p.image;
+        openModal("addModal");
+      }
+
+      document
+        .getElementById("productForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const name = document.getElementById("productName").value;
+          const category = document.getElementById("productCategory").value;
+          const image = document.getElementById("productImage").value;
+          if (editIndex !== null) {
+            products[editIndex] = { ...products[editIndex], name, category, image };
+            editIndex = null;
+          } else {
+            products.push({ name, category, image, status: "Ativo" });
+          }
+          closeModal("addModal");
+          renderProducts();
+          renderTabs();
+        });
+
+      function toggleStatus(i) {
+        products[i].status = products[i].status === "Ativo" ? "Inativo" : "Ativo";
         renderProducts();
       }
-    }
 
-    // Inicializa a lista
-    renderProducts();
-  </script>
-</body>
+      function deleteProduct(i) {
+        if (confirm("Tem certeza que deseja excluir este produto?")) {
+          products.splice(i, 1);
+          renderProducts();
+          renderTabs();
+        }
+      }
+
+      searchInput.addEventListener("input", renderProducts);
+
+      renderTabs();
+      renderProducts();
+    </script>
+  </body>
 </html>
